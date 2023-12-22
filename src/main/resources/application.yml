@@ -1,0 +1,14 @@
+spring:
+    datasource:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/oldpicture?serverTimeZone=UTC
+        username: root
+        password: 123456
+    data:
+      redis:
+        port: 6379
+        host: 192.168.6.128
+        password: 123321
+mybatis:
+    mapper-locations: classpath:mapper/*.xml
+    type-aliases-package: com.oldphoto.entity
