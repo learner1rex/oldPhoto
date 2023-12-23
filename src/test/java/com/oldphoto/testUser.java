@@ -24,14 +24,14 @@ public class testUser {
 
   private OkHttpClient okHttpClient = new OkHttpClient();
 
-  @Test
-  public void testRegister() {
-    LoginFormDTO loginForm = new LoginFormDTO();
-    loginForm.setPassword("123456");
-    loginForm.setUserName("张三");
-    Result result = userService.register(loginForm);
-    System.out.println(result);
-  }
+//  @Test
+//  public void testRegister() {
+//    LoginFormDTO loginForm = new LoginFormDTO();
+//    loginForm.setPassword("123456");
+//    loginForm.setUserName("张三");
+//    Result result = userService.register(loginForm);
+//    System.out.println(result);
+//  }
 
   //    @Test
 //    public void testLogin(){
@@ -43,23 +43,42 @@ public class testUser {
 //    }
   @Test
   public void testImg() {
-    String img = "22222222222";
-    RequestBody body = new FormBody.Builder().
-      add("img",img).build();
+      String image = "test";
 
-    Request request = new Request.
-      Builder().
-      url("http://localhost:8080/image/upload").
-      post(body).
-      build();
+      // 创建请求体
+      RequestBody requestBody = RequestBody.create(
+        MediaType.parse("application/json; charset=utf-8"),
+        "{\n" +
+          "  \"resize_mode\": 0,\n" +
+          "  \"show_extras_results\": true,\n" +
+          "  \"gfpgan_visibility\": 0,\n" +
+          "  \"codeformer_visibility\": 0,\n" +
+          "  \"codeformer_weight\": 0,\n" +
+          "  \"upscaling_resize\": 2,\n" +
+          "  \"upscaling_resize_w\": 512,\n" +
+          "  \"upscaling_resize_h\": 512,\n" +
+          "  \"upscaling_crop\": true,\n" +
+          "  \"upscaler_1\": \"None\",\n" +
+          "  \"upscaler_2\": \"None\",\n" +
+          "  \"extras_upscaler_2_visibility\": 0,\n" +
+          "  \"upscale_first\": false,\n" +
+          "  \"image\": \""+image+"\"\n" +
+          "}"
+        );
+
+      // 创建请求
+      Request request = new Request.Builder()
+        .url("http://localhost:8080/image/upload") // 设置目标URL
+        .post(requestBody) // 设置请求体和POST方法
+        .build();
 
     try(Response response = okHttpClient.newCall(request).execute()) {
       if(!response.isSuccessful()){
         throw new IOException("unexpected code" + response);
       }
-      JSONObject json = JSON.parseObject(response.body().string());
 
-      System.out.println(json);
+      String string = response.body().string();
+      System.out.println(string);
     }catch (Exception e){
 
     }
